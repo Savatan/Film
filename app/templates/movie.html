@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block title %}{{ movie.canonical_name }} - Movie Database{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <!-- Poster -->
+        <div class="col-md-4">
+            {% if movie.image_url %}
+            <img src="{{ movie.image_url }}" class="img-fluid rounded shadow" alt="{{ movie.canonical_name }}">
+            {% else %}
+            <div class="no-poster rounded shadow" style="height: 500px;">
+                <i class="bi bi-film"></i>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Details -->
+        <div class="col-md-8">
+            <h1>{{ movie.canonical_name }}</h1>
+            {% if movie.original_name and movie.original_name != movie.canonical_name %}
+            <h4 class="text-muted">{{ movie.original_name }}</h4>
+            {% endif %}
+
+            <!-- Metadata -->
+            <div class="mb-3">
+                <span class="badge bg-primary">
+                    {% if movie.movie_type == 'series' %}
+                    <i class="bi bi-tv"></i> Сериал
+                    {% else %}
+                    <i class="bi bi-camera-reels"></i> Фильм
+                    {% endif %}
+                </span>
+                {% if movie.release_year %}
+                <span class="badge bg-secondary">{{ movie.release_year }}</span>
+                {% endif %}
+                {% if movie.duration %}
+                <span class="badge bg-secondary">{{ movie.duration }} мин</span>
+                {% endif %}
+            </div>
+
+            <!-- Genres -->
+            {% if movie.genres %}
+            <div class="mb-3">
+                <strong>Жанры:</strong>
+                {% for genre in movie.genres %}
+                <span class="badge bg-info">{{ genre.name }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Ratings -->
+            {% if ratings %}
+            <div class="mb-4">
+                <h5>Рейтинги:</h5>
+                <div class="row">
+                    {% for rating in ratings %}
+                    <div class="col-auto">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <h6 class="text-uppercase text-muted mb-1">{{ rating.source }}</h6>
+                                <h3 class="mb-0 text-{{ rating.rating | rating_color }}">
+                                    {{ rating.rating }}
+                                </h3>
+                                {% if rating.votes_count %}
+                                <small class="text-muted">{{ "{:,}".format(rating.votes_count) }} голосов</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Description -->
+            {% if movie.description %}
+            <div class="mb-4">
+                <h5>Описание:</h5>
+                <p>{{ movie.description }}</p>
+            </div>
+            {% endif %}
+
+            <!-- Directors -->
+            {% if movie.directors %}
+            <div class="mb-3">
+                <strong>Режиссёры:</strong>
+                {{ movie.directors | map(attribute='name') | join(', ') }}
+            </div>
+            {% endif %}
+
+            <!-- Actors -->
+            {% if movie.actors %}
+            <div class="mb-4">
+                <strong>Актёры:</strong>
+                {{ movie.actors[:10] | map(attribute='name') | join(', ') }}
+                {% if movie.actors | length > 10 %}...{% endif %}
+            </div>
+            {% endif %}
+
+            <!-- External Links -->
+            <div class="mb-4">
+                <h5>Ссылки на источники:</h5>
+                <div class="btn-group" role="group">
+                    {% if movie.imdb_id %}
+                    <a href="https://www.imdb.com/title/{{ movie.imdb_id }}/" target="_blank" class="btn btn-outline-warning">
+                        <i class="bi bi-link-45deg"></i> IMDb
+                    </a>
+                    {% endif %}
+                    {% if movie.tmdb_id %}
+                    <a href="https://www.themoviedb.org/movie/{{ movie.tmdb_id }}" target="_blank" class="btn btn-outline-info">
+                        <i class="bi bi-link-45deg"></i> TMDb
+                    </a>
+                    {% endif %}
+                    {% if movie.kinopoisk_id %}
+                    <a href="https://www.kinopoisk.ru/film/{{ movie.kinopoisk_id }}/" target="_blank" class="btn btn-outline-danger">
+                        <i class="bi bi-link-45deg"></i> Кинопоиск
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Offers -->
+            {% if offers %}
+            <div class="mb-4">
+                <h5>Предложения ({{ offers | length }}):</h5>
+                <div class="list-group">
+                    {% for offer in offers %}
+                    <a href="{{ offer.url }}" target="_blank" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">{{ offer.website_name }}</h6>
+                            {% if offer.price %}
+                            <span class="badge bg-success">{{ offer.price }} ₽</span>
+                            {% endif %}
+                        </div>
+                        <small class="text-muted">{{ offer.url[:80] }}...</small>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

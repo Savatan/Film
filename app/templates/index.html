@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Главная - Movie Database{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Hero Section -->
+    <div class="jumbotron bg-light p-5 rounded-3 mb-5">
+        <h1 class="display-4">Добро пожаловать в MovieDB!</h1>
+        <p class="lead">Интегрированная база данных фильмов и сериалов из разных источников</p>
+        <hr class="my-4">
+        <div class="row text-center">
+            <div class="col-md-6">
+                <h2 class="display-6">{{ total_movies }}</h2>
+                <p>Фильмов и сериалов</p>
+            </div>
+            <div class="col-md-6">
+                <h2 class="display-6">{{ total_offers }}</h2>
+                <p>Предложений с разных сайтов</p>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <a class="btn btn-primary btn-lg" href="/search" role="button">
+                <i class="bi bi-search"></i> Начать поиск
+            </a>
+        </div>
+    </div>
+
+    <!-- Popular Movies -->
+    <h2 class="mb-4">
+        <i class="bi bi-fire text-danger"></i> Популярные фильмы и сериалы
+    </h2>
+    <p class="text-muted mb-4">Отсортировано по рейтингам и количеству голосов</p>
+    <div class="row g-4">
+        {% for movie in recent_movies %}
+        <div class="col-md-3 col-sm-6">
+            <div class="card movie-card">
+                <div class="position-relative">
+                    {% if movie.image_url %}
+                    <img src="{{ movie.image_url }}" class="card-img-top movie-poster" alt="{{ movie.canonical_name }}">
+                    {% else %}
+                    <div class="no-poster">
+                        <i class="bi bi-film"></i>
+                    </div>
+                    {% endif %}
+                    
+                    {% if movie.avg_rating %}
+                    <span class="badge bg-warning rating-badge">
+                        <i class="bi bi-star-fill"></i> {{ movie.avg_rating }}
+                    </span>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ movie.canonical_name }}</h5>
+                    <p class="card-text text-muted">
+                        <small>
+                            <i class="bi bi-calendar"></i> {{ movie.release_year or 'N/A' }}
+                            {% if movie.movie_type == 'series' %}
+                            <i class="bi bi-tv ms-2"></i> Сериал
+                            {% else %}
+                            <i class="bi bi-camera-reels ms-2"></i> Фильм
+                            {% endif %}
+                        </small>
+                    </p>
+                    <a href="/movie/{{ movie.id }}" class="btn btn-sm btn-outline-primary">
+                        Подробнее
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Features Section -->
+    <div class="row mt-5 pt-5">
+        <div class="col-md-4 text-center mb-4">
+            <div class="features-icon mb-3">
+                <i class="bi bi-database-fill"></i>
+            </div>
+            <h3 class="mt-3">Интеграция данных</h3>
+            <p class="text-muted">Объединяем информацию из TMDb, IMDb и OMDb</p>
+        </div>
+        <div class="col-md-4 text-center mb-4">
+            <div class="features-icon mb-3" style="animation-delay: 0.5s;">
+                <i class="bi bi-search-heart"></i>
+            </div>
+            <h3 class="mt-3">Умный поиск</h3>
+            <p class="text-muted">Поиск по названию, жанру, году и другим параметрам</p>
+        </div>
+        <div class="col-md-4 text-center mb-4">
+            <div class="features-icon mb-3" style="animation-delay: 1s;">
+                <i class="bi bi-star-fill"></i>
+            </div>
+            <h3 class="mt-3">Рейтинги</h3>
+            <p class="text-muted">Сравнение оценок из разных источников</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

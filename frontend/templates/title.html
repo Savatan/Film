@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title.canonical_title }}</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+<div class="container">
+    <a href="/">⟵ Назад к поиску</a>
+    <h1>{{ title.canonical_title }}</h1>
+    {% if title.original_title %}
+        <h2>{{ title.original_title }}</h2>
+    {% endif %}
+    <p><strong>Год:</strong> {{ title.year }}</p>
+    <p><strong>Тип:</strong> {{ title.type }}</p>
+    {% if title.description %}
+        <p>{{ title.description }}</p>
+    {% endif %}
+
+    <h3>Атрибуты</h3>
+    <ul>
+        {% for attr in title.attributes %}
+            <li><strong>{{ attr.attribute_name }}:</strong> {{ attr.attribute_value }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Предложения с сайтов</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Сайт</th>
+            <th>Рейтинг</th>
+            <th>Ссылка</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for offer in title.offers %}
+            <tr>
+                <td>{{ offer.website_name }}</td>
+                <td>{{ offer.rating_site }}</td>
+                <td><a href="{{ offer.url }}" target="_blank">Открыть</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

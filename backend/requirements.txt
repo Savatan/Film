@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+SQLAlchemy
+psycopg2-binary
+jinja2
+python-multipart
+rapidfuzz
+requests
+beautifulsoup4
