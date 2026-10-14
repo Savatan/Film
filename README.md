@@ -4,16 +4,17 @@
 
 ## Технологии
 
-- Python 3.11
-- FastAPI
-- SQLAlchemy
-- PostgreSQL
-- RapidFuzz
-- Requests и BeautifulSoup
-- Jinja2
-- Docker
+![Python](https://img.shields.io/badge/Python-3.11-3776ab?logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-API-009688?logo=fastapi&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-database-4169e1?logo=postgresql&logoColor=white)
+![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-ORM-d71f00)
+![Docker](https://img.shields.io/badge/Docker-containers-2496ed?logo=docker&logoColor=white)
 
-## Структура проекта
+## О проекте
+
+Проект объединяет веб-приложение, работу с данными о фильмах и инструменты сбора информации из внешних источников.
+
+## Основные компоненты
 
 - `app/` — основное приложение и веб-интерфейс.
 - `backend/` — backend-компоненты и зависимости.
@@ -21,14 +22,17 @@
 - `Dockerfile` — сборка контейнера.
 - `.env.example` — шаблон переменных окружения.
 
-## Конфигурация
+## Используемые инструменты
 
-Перед запуском настройте переменные окружения из `.env.example`, в том числе подключение к PostgreSQL. Не добавляйте реальные ключи API и пароли в репозиторий.
+- **FastAPI** и **SQLAlchemy** — серверная часть и работа с данными.
+- **PostgreSQL** — база данных.
+- **RapidFuzz** — нечёткое сравнение строк.
+- **Requests** и **BeautifulSoup** — HTTP-запросы и разбор HTML.
+- **Jinja2** — шаблоны веб-интерфейса.
+- **Docker** — контейнеризация.
 
 ## Запуск
 
-В репозитории есть скрипт `START.sh` и Dockerfile. Перед запуском проверьте настройки окружения и следуйте актуальным командам в скрипте запуска.
+В репозитории есть скрипт `START.sh` и Dockerfile. Перед запуском настройте переменные окружения на основе `.env.example`, включая подключение к PostgreSQL, затем проверьте актуальные команды в скрипте запуска.
 
-## Назначение
-
-Проект объединяет веб-приложение, работу с данными о фильмах и инструменты сбора информации. В зависимостях предусмотрены средства для нечёткого сравнения строк, HTTP-запросов и разбора HTML.
+> Не добавляйте реальные ключи API и пароли в репозиторий.
